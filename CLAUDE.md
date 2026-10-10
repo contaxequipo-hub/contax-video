@@ -9,7 +9,7 @@ Este repo produce videos de **Contax-AI** (skills en `.claude/skills/`).
 - **Videos animados desde cero** (textos, gráficos, sin persona en cámara): **HyperFrames**.
 - **Editar videos grabados a cámara o sacar reels de una grabación**: **editor-video-ia**.
 - **En todos los videos**, textos y subtítulos con **voseo rioplatense**, aunque la skill indique
-  otra variante (por ejemplo, editor-video-ia pide español neutro con "tú": acá no aplica).
+  otra variante (por ejemplo, editor-video-ia pide castellano neutro con "tú": acá no aplica).
 
 ## Marca
 
@@ -22,7 +22,7 @@ Este repo produce videos de **Contax-AI** (skills en `.claude/skills/`).
 ## Tono y textos
 
 - Profesional pero cercano. Explicamos lo complejo de manera simple.
-- Español rioplatense (voseo: "tenés", "podés", "consultanos").
+- Castellano rioplatense (voseo: "tenés", "podés", "consultanos").
 - Terminología impositiva correcta: **ARCA** (no "AFIP"), **monotributo**, **IVA**, **Ganancias**, **IIBB** / Ingresos Brutos, Convenio Multilateral, factura electrónica, recategorización, etc.
 - Cómo escribir la marca:
   - ✅ `Contax-AI` (texto corrido) · `CONTAX-AI` (solo tratamiento gráfico/titulares de alto impacto) · `Contax-AI · Estudio Contable`

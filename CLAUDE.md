@@ -55,9 +55,10 @@ Este repo produce videos de **Contax-AI** con HyperFrames (skills en `.claude/sk
 
 ## Logo
 
-- Archivo: `assets/logo.png` (versión negativa: blanco con isotipo azul, fondo transparente).
-- **Usalo en el cierre de cada video.**
-- Como es blanco, va sobre fondo oscuro (Profundo `#31424B` o negro). No ponerlo sobre fondos claros, saturados o de bajo contraste.
+- **Usá el logo en el cierre de cada video**, eligiendo la versión según el fondo:
+  - `assets/logo.png`: versión negativa (blanco con isotipo azul, fondo transparente). Para fondos oscuros (Profundo `#31424B` o negro).
+  - `assets/logo-claro.png`: versión principal (negro con isotipo azul, fondo blanco, 1254×1254). Para fondos claros/blancos.
+- Nunca sobre fondos saturados o de bajo contraste.
 - No deformar, estirar, rotar, recolorear ni reducir el contraste.
 - Dejá un margen libre alrededor equivalente, como mínimo, a la altura de la "C" del logo.
 - Ancho mínimo en digital: 160 px.

@@ -164,7 +164,7 @@ def main():
     else:
         fc += "[c2]nullsink"
     (out / "filter.txt").write_text(fc)
-    cmd = ["ffmpeg", "-v", "error", "-y", "-i", video, "-filter_complex_script", str(out / "filter.txt"),
+    cmd = ["ffmpeg", "-v", "error", "-y", "-i", video, "-/filter_complex", str(out / "filter.txt"),
            "-map", "[cam]", "-map", "[ac]", "-c:v", "libx264", "-crf", "17", "-preset", "fast", "-c:a", "aac", "-b:a", "192k",
            str(pub / "cam.mp4")]
     if wide:

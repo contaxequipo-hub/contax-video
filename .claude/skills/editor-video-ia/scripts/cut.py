@@ -78,7 +78,7 @@ def main():
     (work / "filter.txt").write_text(parts)
 
     out = work / "remotion" / "public" / "cut.mp4"
-    subprocess.run(["ffmpeg", "-v", "error", "-y", "-i", video, "-filter_complex_script", str(work / "filter.txt"),
+    subprocess.run(["ffmpeg", "-v", "error", "-y", "-i", video, "-/filter_complex", str(work / "filter.txt"),
                     "-map", "[vo]", "-map", "[ac]", "-c:v", "libx264", "-crf", "17", "-preset", "fast",
                     "-c:a", "aac", "-b:a", "192k", str(out)], check=True)
     real = float(subprocess.check_output(["ffprobe", "-v", "error", "-show_entries", "format=duration", "-of", "csv=p=0", str(out)]))

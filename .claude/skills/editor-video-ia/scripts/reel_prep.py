@@ -27,16 +27,27 @@ PAD_IN, PAD_OUT, MAX_WORD = 0.06, 0.14, 0.95
 
 
 def probe(v):
+    """Ancho y alto tal como se ve el video (con la rotación de los metadatos aplicada, como hace ffmpeg)."""
     d = json.loads(subprocess.check_output(["ffprobe", "-v", "error", "-select_streams", "v:0",
-                                            "-show_entries", "stream=width,height", "-of", "json", v]))
-    return d["streams"][0]["width"], d["streams"][0]["height"]
+                                            "-show_entries", "stream=width,height:stream_tags=rotate:stream_side_data=rotation",
+                                            "-of", "json", v]))
+    s = d["streams"][0]
+    rot = next((sd["rotation"] for sd in s.get("side_data_list", []) if "rotation" in sd), None)
+    if rot is None:
+        rot = s.get("tags", {}).get("rotate", 0)
+    W, H = s["width"], s["height"]
+    return (H, W) if int(float(rot)) % 180 else (W, H)
 
 
 def detect_cam(video, segs, W, H, crop_frame):
-    """Cara centrada → recorte 9:16 a altura completa (dentro del marco si lo hay)."""
+    """Cara centrada → recorte 9:16 a altura completa (dentro del marco si lo hay).
+    Devuelve (recorte, cara) con cara = (cx, cy, alto) en píxeles del original, o None si no se detectó."""
     import cv2, numpy as np
+    if not hasattr(cv2, "CascadeClassifier"):
+        raise SystemExit(f"OpenCV {cv2.__version__} no trae CascadeClassifier (se quitó en OpenCV 5). "
+                         f"Volver a correr scripts/setup.sh, que instala opencv-python-headless<5.")
     cas = cv2.CascadeClassifier(cv2.data.haarcascades + "haarcascade_frontalface_default.xml")
-    xs = []
+    xs, ys, hs = [], [], []
     for a, b in segs:
         for t in (a + (b - a) * k for k in (0.2, 0.5, 0.8)):
             raw = subprocess.check_output(["ffmpeg", "-v", "error", "-ss", f"{t:.2f}", "-i", video, "-frames:v", "1",
@@ -47,12 +58,16 @@ def detect_cam(video, segs, W, H, crop_frame):
             if len(f):
                 x, y, w, hh = max(f, key=lambda r: r[2])
                 xs.append((x + w / 2) * W / 960)
+                ys.append((y + hh / 2) * W / 960)
+                hs.append(hh * W / 960)
+    med = lambda v: sorted(v)[len(v) // 2]
     fx, fy, fw, fh = crop_frame
-    cx = sorted(xs)[len(xs) // 2] if xs else fx + fw / 2
+    cx = med(xs) if xs else fx + fw / 2
     ch = fh
     cw = int(round(ch * 9 / 16 / 2) * 2)
     x0 = int(min(max(cx - cw / 2, fx), fx + fw - cw))
-    return cw, ch, x0, fy
+    face = (cx, med(ys), med(hs)) if xs else None
+    return (cw, ch, x0, fy), face
 
 
 def main():
@@ -123,7 +138,7 @@ def main():
         c = prep.detect_crop(video, W, H, float(subprocess.check_output(
             ["ffprobe", "-v", "error", "-show_entries", "format=duration", "-of", "csv=p=0", video])))
         if c: frame = (c[2], c[3], c[0], c[1])
-    cam = tuple(map(int, a.cam.split(":"))) if a.cam else detect_cam(video, merged, W, H, frame)
+    cam, face = (tuple(map(int, a.cam.split(":"))), None) if a.cam else detect_cam(video, merged, W, H, frame)
 
     out = work / "reels" / a.name
     rem = out / "remotion"
@@ -152,6 +167,17 @@ def main():
             wh = int(min(wh, ww * 1140 / 1620)) // 2 * 2
             wx = int(min(max(cx + cw / 2 - ww / 2, fx), fx + fw - ww))
             wy = int(min(max(cy + ch * 0.053, fy), fy + fh - wh))
+            # La fórmula de arriba supone la cara en la parte alta del recorte (grabación horizontal a cámara).
+            # Si la cara detectada no cae en la franja media-alta del cuadro, o queda muy chica (vertical de
+            # cuerpo entero, p. ej. iPhone), centrar el cuadro en la cara: ~2,8 caras de alto, cara al medio (aire arriba para el pelo).
+            if face:
+                fcx, fcy, fsz = face
+                if not (wy + 0.25 * wh <= fcy <= wy + 0.6 * wh) or fsz < 0.2 * wh:
+                    wh = int(min(fh, ch * 0.74, fsz * 2.8)) // 2 * 2
+                    ww = int(min(fw, wh * 1620 / 1140)) // 2 * 2
+                    wh = int(min(wh, ww * 1140 / 1620)) // 2 * 2
+                    wx = int(min(max(fcx - ww / 2, fx), fx + fw - ww))
+                    wy = int(min(max(fcy - 0.5 * wh, fy), fy + fh - wh))
             wide = (ww, wh, wx, wy)
     split = "split=3[c1][c2][c3]" if wide else "split=2[c1][c2]"
     fc = fc.replace("split=2[c1][c2]", split)

@@ -22,12 +22,21 @@ def run(cmd, **kw):
 
 
 def probe(video):
+    """Ancho y alto TAL COMO SE VE el video (ffmpeg aplica la rotación de los metadatos al decodificar:
+    un iPhone vertical guarda 1920x1080 con rotación -90 y entrega cuadros de 1080x1920)."""
     out = subprocess.check_output([
         "ffprobe", "-v", "error", "-select_streams", "v:0",
-        "-show_entries", "stream=width,height:format=duration", "-of", "json", video])
+        "-show_entries", "stream=width,height:stream_tags=rotate:stream_side_data=rotation:format=duration",
+        "-of", "json", video])
     d = json.loads(out)
     s = d["streams"][0]
-    return s["width"], s["height"], float(d["format"]["duration"])
+    rot = next((sd["rotation"] for sd in s.get("side_data_list", []) if "rotation" in sd), None)
+    if rot is None:
+        rot = s.get("tags", {}).get("rotate", 0)
+    W, H = s["width"], s["height"]
+    if int(float(rot)) % 180:
+        W, H = H, W
+    return W, H, float(d["format"]["duration"])
 
 
 def slugify(s):

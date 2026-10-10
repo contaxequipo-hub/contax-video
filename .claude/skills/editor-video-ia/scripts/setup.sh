@@ -13,10 +13,11 @@ if [ ! -x "$SKILL/.venv/bin/python" ]; then
   echo "→ Creando entorno de Python…"
   python3 -m venv "$SKILL/.venv"
 fi
-"$SKILL/.venv/bin/python" -c "import faster_whisper, numpy, cv2" 2>/dev/null || {
+# OpenCV < 5: la detección de cara usa CascadeClassifier (Haar), que OpenCV 5 quitó del paquete principal.
+"$SKILL/.venv/bin/python" -c "import faster_whisper, numpy, cv2; cv2.CascadeClassifier" 2>/dev/null || {
   echo "→ Instalando transcripción (faster-whisper) y detección de cara (OpenCV)…"
   "$SKILL/.venv/bin/pip" install -q --upgrade pip
-  "$SKILL/.venv/bin/pip" install -q faster-whisper numpy opencv-python-headless
+  "$SKILL/.venv/bin/pip" install -q faster-whisper numpy "opencv-python-headless<5"
 }
 if [ ! -d "$SKILL/engine/node_modules/remotion" ]; then
   echo "→ Instalando Remotion (motor de edición)…"

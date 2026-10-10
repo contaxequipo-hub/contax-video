@@ -1,0 +1,46 @@
+<template id="s3-cada-venta-template">
+  <div data-composition-id="s3-cada-venta" data-width="1080" data-height="1920" data-duration="4">
+    <div class="scene-content">
+      <div class="meta"><span class="num">02</span><span class="dash"></span><span>CADA OPERACIÓN CUENTA</span></div>
+      <h1 class="headline"><span class="w">Facturá</span> <span class="em"><span class="ul"></span><span class="t">cada venta,</span></span> <span class="w">aunque</span> <span class="w">sea</span> <span class="w">chica</span></h1>
+      <p class="sub">Lo que facturás <b>define tu categoría</b></p>
+      <div class="visual">
+        <div class="sales">
+          <div class="sale card"><div class="sale-l"><span class="sale-k">VENTA</span><span class="sale-v">$ 1.500</span></div><div class="check"><span>Facturada</span><i>✓</i></div></div>
+          <div class="sale card"><div class="sale-l"><span class="sale-k">VENTA</span><span class="sale-v">$ 8.200</span></div><div class="check"><span>Facturada</span><i>✓</i></div></div>
+          <div class="sale card"><div class="sale-l"><span class="sale-k">VENTA</span><span class="sale-v">$ 650</span></div><div class="check"><span>Facturada</span><i>✓</i></div></div>
+        </div>
+      </div>
+    </div>
+
+    <style>
+      [data-composition-id="s3-cada-venta"] { position: absolute; inset: 0; }
+      [data-composition-id="s3-cada-venta"] .sales { width: 100%; display: flex; flex-direction: column; gap: 26px; }
+      [data-composition-id="s3-cada-venta"] .sale { display: flex; align-items: center; justify-content: space-between; padding: 30px 40px; border-radius: 24px; box-shadow: 0 20px 44px rgba(49, 66, 75, 0.08); }
+      [data-composition-id="s3-cada-venta"] .sale-l { display: flex; flex-direction: column; gap: 4px; }
+      [data-composition-id="s3-cada-venta"] .sale-k { font-size: 24px; font-weight: 500; letter-spacing: 0.16em; color: var(--azul-inst); }
+      [data-composition-id="s3-cada-venta"] .sale-v { font-family: var(--serif); font-weight: 700; font-size: 58px; color: var(--profundo); }
+      [data-composition-id="s3-cada-venta"] .check { display: flex; align-items: center; gap: 14px; font-size: 28px; font-weight: 600; color: var(--azul-inst); }
+      [data-composition-id="s3-cada-venta"] .check i { width: 56px; height: 56px; border-radius: 50%; background: var(--profundo); color: var(--blanco); display: flex; align-items: center; justify-content: center; font-style: normal; font-size: 32px; }
+    </style>
+
+    <script>
+      (function () {
+        const R = '[data-composition-id="s3-cada-venta"] ';
+        const tl = gsap.timeline({ paused: true });
+        tl.fromTo(R + ".meta", { autoAlpha: 0, x: -40 }, { autoAlpha: 1, x: 0, duration: 0.45, ease: "power3.out" }, 0.1);
+        tl.fromTo(R + ".meta .dash", { scaleX: 0 }, { scaleX: 1, duration: 0.5, ease: "expo.out" }, 0.15);
+        tl.fromTo(R + ".headline > span", { autoAlpha: 0, x: -60 }, { autoAlpha: 1, x: 0, duration: 0.4, ease: "power3.out", stagger: 0.07 }, 0.22);
+        tl.fromTo(R + ".headline .ul", { scaleX: 0 }, { scaleX: 1, duration: 0.5, ease: "power2.inOut" }, 0.7);
+        tl.fromTo(R + ".sub", { autoAlpha: 0, y: 24 }, { autoAlpha: 1, y: 0, duration: 0.4, ease: "power2.out" }, 1.05);
+        // Las ventas entran una tras otra y cada una se tilda como facturada.
+        tl.fromTo(R + ".sale", { autoAlpha: 0, x: 260 }, { autoAlpha: 1, x: 0, duration: 0.42, ease: "back.out(1.4)", stagger: 0.22 }, 0.75);
+        tl.fromTo(R + ".check i", { scale: 0 }, { scale: 1, duration: 0.3, ease: "back.out(3)", stagger: 0.22 }, 1.05);
+        tl.fromTo(R + ".check span", { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.25, ease: "sine.out", stagger: 0.22 }, 1.12);
+        tl.fromTo(R + ".sales", { scale: 1 }, { scale: 1.03, duration: 1.6, ease: "sine.inOut" }, 2.0);
+        tl.to(R + ".scene-content", { autoAlpha: 0, y: -70, duration: 0.26, ease: "power2.in" }, 3.74);
+        window.__timelines["s3-cada-venta"] = tl;
+      })();
+    </script>
+  </div>
+</template>

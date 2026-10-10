@@ -1,0 +1,65 @@
+<template id="s2-factura-c-template">
+  <div data-composition-id="s2-factura-c" data-width="1080" data-height="1920" data-duration="4">
+    <div class="scene-content">
+      <div class="meta"><span class="num">01</span><span class="dash"></span><span>QUÉ FACTURA EMITIR</span></div>
+      <h1 class="headline"><span class="w">Siempre</span> <span class="w">emitís</span> <span class="em"><span class="ul"></span><span class="t">Factura C</span></span></h1>
+      <p class="sub">A clientes, empresas o consumidores finales</p>
+      <div class="visual">
+        <div class="invoice card">
+          <div class="inv-top">
+            <div>
+              <div class="inv-title">Factura</div>
+              <div class="inv-code">CÓD. 011 · ORIGINAL</div>
+            </div>
+            <div class="inv-letter">C</div>
+          </div>
+          <div class="inv-line inv-line-a"></div>
+          <div class="inv-line inv-line-b"></div>
+          <div class="inv-tags">
+            <span class="tag">Clientes</span>
+            <span class="tag">Empresas</span>
+            <span class="tag">Consumidor final</span>
+          </div>
+          <div class="inv-row"><span>Monotributista</span><b>Sin discriminar IVA</b></div>
+        </div>
+      </div>
+    </div>
+
+    <style>
+      [data-composition-id="s2-factura-c"] { position: absolute; inset: 0; }
+      [data-composition-id="s2-factura-c"] .invoice { position: relative; width: 760px; height: 560px; border-radius: 28px; box-shadow: 0 40px 80px rgba(49, 66, 75, 0.14); padding: 56px 56px 48px; display: flex; flex-direction: column; gap: 30px; }
+      [data-composition-id="s2-factura-c"] .inv-top { display: flex; align-items: flex-start; justify-content: space-between; }
+      [data-composition-id="s2-factura-c"] .inv-title { font-family: var(--serif); font-weight: 700; font-size: 52px; color: var(--profundo); }
+      [data-composition-id="s2-factura-c"] .inv-code { font-size: 24px; font-weight: 500; letter-spacing: 0.12em; color: var(--azul-inst); margin-top: 8px; }
+      [data-composition-id="s2-factura-c"] .inv-letter { width: 148px; height: 148px; border: 6px solid var(--profundo); border-radius: 18px; display: flex; align-items: center; justify-content: center; font-family: var(--serif); font-weight: 700; font-size: 108px; color: var(--profundo); background: var(--papel); }
+      [data-composition-id="s2-factura-c"] .inv-line { height: 22px; border-radius: 11px; background: #ebe7e0; transform-origin: left center; }
+      [data-composition-id="s2-factura-c"] .inv-line-a { width: 82%; }
+      [data-composition-id="s2-factura-c"] .inv-line-b { width: 60%; }
+      [data-composition-id="s2-factura-c"] .inv-tags { display: flex; gap: 14px; flex-wrap: wrap; }
+      [data-composition-id="s2-factura-c"] .tag { padding: 12px 24px; border-radius: 999px; background: var(--papel-2); font-size: 26px; font-weight: 500; color: var(--profundo); }
+      [data-composition-id="s2-factura-c"] .inv-row { display: flex; justify-content: space-between; align-items: center; font-size: 30px; color: var(--azul-inst); }
+      [data-composition-id="s2-factura-c"] .inv-row b { font-weight: 600; color: var(--profundo); }
+    </style>
+
+    <script>
+      (function () {
+        const R = '[data-composition-id="s2-factura-c"] ';
+        const tl = gsap.timeline({ paused: true });
+        tl.fromTo(R + ".meta", { autoAlpha: 0, x: -40 }, { autoAlpha: 1, x: 0, duration: 0.45, ease: "power3.out" }, 0.1);
+        tl.fromTo(R + ".meta .dash", { scaleX: 0 }, { scaleX: 1, duration: 0.5, ease: "expo.out" }, 0.15);
+        tl.fromTo(R + ".headline > span", { autoAlpha: 0, y: 80 }, { autoAlpha: 1, y: 0, duration: 0.55, ease: "power4.out", stagger: 0.09 }, 0.22);
+        tl.fromTo(R + ".headline .ul", { scaleX: 0 }, { scaleX: 1, duration: 0.5, ease: "power2.inOut" }, 0.85);
+        tl.fromTo(R + ".sub", { autoAlpha: 0, y: 24 }, { autoAlpha: 1, y: 0, duration: 0.4, ease: "power2.out" }, 1.15);
+        // La factura entra deslizando y la letra C cae como un sello.
+        tl.fromTo(R + ".invoice", { autoAlpha: 0, x: 420, y: 0, rotation: 6 }, { autoAlpha: 1, x: 0, y: 0, rotation: 0, duration: 0.7, ease: "expo.out" }, 0.55);
+        tl.fromTo(R + ".inv-letter", { scale: 2.4, autoAlpha: 0 }, { scale: 1, autoAlpha: 1, duration: 0.45, ease: "back.out(2.4)" }, 1.05);
+        tl.fromTo(R + ".inv-line", { scaleX: 0 }, { scaleX: 1, duration: 0.5, ease: "power2.out", stagger: 0.1 }, 1.2);
+        tl.fromTo(R + ".tag", { autoAlpha: 0, y: 20 }, { autoAlpha: 1, y: 0, duration: 0.35, ease: "power3.out", stagger: 0.12 }, 1.45);
+        tl.fromTo(R + ".inv-row", { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.4, ease: "sine.out" }, 1.9);
+        tl.to(R + ".invoice", { y: -14, duration: 1.4, ease: "sine.inOut" }, 2.2);
+        tl.to(R + ".scene-content", { autoAlpha: 0, y: 70, duration: 0.26, ease: "power2.in" }, 3.74);
+        window.__timelines["s2-factura-c"] = tl;
+      })();
+    </script>
+  </div>
+</template>

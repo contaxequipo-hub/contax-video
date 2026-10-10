@@ -1,0 +1,55 @@
+<template id="s5-cierre-template">
+  <div data-composition-id="s5-cierre" data-width="1080" data-height="1920" data-duration="3">
+    <div class="close-bg" id="s5-bg"></div>
+    <div class="close-rings">
+      <svg viewBox="0 0 200 200">
+        <g id="s5-rings" fill="none" stroke="#9fb8bf" stroke-width="1.6">
+          <circle cx="100" cy="100" r="94" stroke-dasharray="140 8 160 8" />
+          <circle cx="100" cy="100" r="68" stroke-dasharray="96 7 110 7" />
+          <circle cx="100" cy="100" r="42" />
+        </g>
+      </svg>
+    </div>
+    <div class="close-content">
+      <img class="logo" id="s5-logo" src="assets/logo.png" alt="Contax-AI · Estudio Contable" />
+      <div class="close-dash" id="s5-dash"></div>
+      <p class="slogan" id="s5-slogan">Contabilidad que evoluciona</p>
+      <div class="cta" id="s5-cta">
+        <span class="cta-q">¿Dudas con tu facturación?</span>
+        <span class="cta-btn" id="s5-btn">Escribinos</span>
+      </div>
+    </div>
+
+    <style>
+      [data-composition-id="s5-cierre"] { position: absolute; inset: 0; overflow: hidden; }
+      [data-composition-id="s5-cierre"] .close-bg { position: absolute; inset: 0; background: var(--profundo); }
+      [data-composition-id="s5-cierre"] .close-rings { position: absolute; width: 1400px; height: 1400px; left: -160px; top: 260px; }
+      [data-composition-id="s5-cierre"] .close-rings svg { width: 100%; height: 100%; display: block; }
+      [data-composition-id="s5-cierre"] .close-content { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 300px 96px 330px; gap: 64px; text-align: center; }
+      [data-composition-id="s5-cierre"] .logo { width: 820px; display: block; }
+      [data-composition-id="s5-cierre"] .close-dash { width: 96px; height: 5px; border-radius: 3px; background: var(--azul-marca); }
+      [data-composition-id="s5-cierre"] .slogan { font-family: var(--serif); font-style: italic; font-weight: 400; font-size: 76px; line-height: 1.15; color: var(--blanco); }
+      [data-composition-id="s5-cierre"] .cta { display: flex; flex-direction: column; align-items: center; gap: 26px; }
+      [data-composition-id="s5-cierre"] .cta-q { font-size: 40px; font-weight: 400; color: var(--bruma); }
+      [data-composition-id="s5-cierre"] .cta-btn { display: inline-block; padding: 30px 64px; border-radius: 999px; background: var(--blanco); color: var(--profundo); font-size: 46px; font-weight: 600; }
+    </style>
+
+    <script>
+      (function () {
+        const R = '[data-composition-id="s5-cierre"] ';
+        const tl = gsap.timeline({ paused: true });
+        // Cierre: el Profundo se abre en círculo desde el centro (como el isotipo).
+        tl.fromTo("#s5-bg", { clipPath: "circle(0% at 50% 50%)" }, { clipPath: "circle(80% at 50% 50%)", duration: 0.6, ease: "power3.inOut" }, 0);
+        tl.fromTo(R + ".close-rings", { autoAlpha: 0, scale: 0.85 }, { autoAlpha: 0.18, scale: 1, duration: 1.2, ease: "power2.out" }, 0.3);
+        tl.fromTo("#s5-rings", { rotation: 0, svgOrigin: "100 100" }, { rotation: 25, svgOrigin: "100 100", duration: 2.7, ease: "none" }, 0.3);
+        tl.fromTo("#s5-logo", { autoAlpha: 0, scale: 0.92 }, { autoAlpha: 1, scale: 1, duration: 0.7, ease: "expo.out" }, 0.45);
+        tl.fromTo("#s5-dash", { scaleX: 0 }, { scaleX: 1, duration: 0.5, ease: "power2.inOut" }, 0.9);
+        tl.fromTo("#s5-slogan", { autoAlpha: 0, y: 30 }, { autoAlpha: 1, y: 0, duration: 0.6, ease: "power3.out" }, 0.95);
+        tl.fromTo("#s5-cta", { autoAlpha: 0, y: 40 }, { autoAlpha: 1, y: 0, duration: 0.5, ease: "power4.out" }, 1.4);
+        tl.fromTo("#s5-btn", { scale: 0.8 }, { scale: 1, duration: 0.5, ease: "back.out(2.4)" }, 1.5);
+        tl.to("#s5-btn", { scale: 1.05, duration: 0.35, ease: "sine.inOut", yoyo: true, repeat: 1 }, 2.1);
+        window.__timelines["s5-cierre"] = tl;
+      })();
+    </script>
+  </div>
+</template>

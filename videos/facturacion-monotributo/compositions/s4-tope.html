@@ -1,0 +1,57 @@
+<template id="s4-tope-template">
+  <div data-composition-id="s4-tope" data-width="1080" data-height="1920" data-duration="4">
+    <div class="scene-content">
+      <div class="meta"><span class="num">03</span><span class="dash"></span><span>TOPE DE CATEGORÍA</span></div>
+      <h1 class="headline"><span class="w">Controlá</span> <span class="w">tus</span> <span class="w">ingresos</span> <span class="em"><span class="ul"></span><span class="t">todo el año</span></span></h1>
+      <p class="sub">Si te pasás del tope, <b>tenés que recategorizarte</b></p>
+      <div class="visual">
+        <div class="meter card">
+          <div class="meter-head"><span class="meter-k">INGRESOS · ÚLTIMOS 12 MESES</span><span class="meter-pct"><span id="s4-pct">0</span>%</span></div>
+          <div class="track"><div class="fill" id="s4-fill"></div><div class="tope" id="s4-tope-mark"></div></div>
+          <div class="meter-foot"><span>Inicio</span><span class="tope-l">Tope de tu categoría</span></div>
+          <div class="alert" id="s4-alert"><span>↑</span><span>Toca recategorizarte</span></div>
+        </div>
+      </div>
+    </div>
+
+    <style>
+      [data-composition-id="s4-tope"] { position: absolute; inset: 0; }
+      [data-composition-id="s4-tope"] .meter { width: 100%; display: flex; flex-direction: column; gap: 28px; padding: 48px 44px; border-radius: 28px; box-shadow: 0 30px 60px rgba(49, 66, 75, 0.1); }
+      [data-composition-id="s4-tope"] .meter-head { display: flex; justify-content: space-between; align-items: baseline; }
+      [data-composition-id="s4-tope"] .meter-k { font-size: 26px; font-weight: 500; letter-spacing: 0.14em; color: var(--azul-inst); }
+      [data-composition-id="s4-tope"] .meter-pct { font-family: var(--serif); font-weight: 700; font-size: 64px; color: var(--profundo); }
+      [data-composition-id="s4-tope"] .track { position: relative; height: 64px; border-radius: 32px; background: var(--papel-2); }
+      [data-composition-id="s4-tope"] .fill { position: absolute; left: 0; top: 0; bottom: 0; width: 100%; border-radius: 32px; background: var(--azul-inst); transform-origin: left center; }
+      [data-composition-id="s4-tope"] .tope { position: absolute; top: -26px; bottom: -26px; left: 82%; width: 6px; border-radius: 3px; background: var(--profundo); }
+      [data-composition-id="s4-tope"] .meter-foot { display: flex; justify-content: space-between; font-size: 26px; color: var(--azul-inst); }
+      [data-composition-id="s4-tope"] .tope-l { font-weight: 600; color: var(--profundo); }
+      [data-composition-id="s4-tope"] .alert { align-self: flex-start; display: flex; align-items: center; gap: 16px; padding: 18px 30px; border-radius: 999px; background: var(--tierra); color: var(--blanco); font-size: 30px; font-weight: 600; }
+    </style>
+
+    <script>
+      (function () {
+        const R = '[data-composition-id="s4-tope"] ';
+        const tl = gsap.timeline({ paused: true });
+        tl.fromTo(R + ".meta", { autoAlpha: 0, x: -40 }, { autoAlpha: 1, x: 0, duration: 0.45, ease: "power3.out" }, 0.1);
+        tl.fromTo(R + ".meta .dash", { scaleX: 0 }, { scaleX: 1, duration: 0.5, ease: "expo.out" }, 0.15);
+        tl.fromTo(R + ".headline > span", { autoAlpha: 0, scale: 1.25 }, { autoAlpha: 1, scale: 1, duration: 0.45, ease: "power2.out", stagger: 0.08 }, 0.22);
+        tl.fromTo(R + ".headline .ul", { scaleX: 0 }, { scaleX: 1, duration: 0.5, ease: "power2.inOut" }, 0.75);
+        tl.fromTo(R + ".sub", { autoAlpha: 0, y: 24 }, { autoAlpha: 1, y: 0, duration: 0.4, ease: "power2.out" }, 1.05);
+        tl.fromTo(R + ".meter", { autoAlpha: 0, y: 90 }, { autoAlpha: 1, y: 0, duration: 0.6, ease: "power4.out" }, 0.55);
+
+        // Barra de ingresos: llega al 78%, después pasa el tope y cambia a Tierra.
+        const pct = { v: 0 };
+        const pctEl = document.getElementById("s4-pct");
+        const paint = () => { pctEl.textContent = Math.round(pct.v); };
+        tl.fromTo("#s4-fill", { scaleX: 0, backgroundColor: "#4c636d" }, { scaleX: 0.78, backgroundColor: "#4c636d", duration: 1.2, ease: "power2.inOut" }, 0.9);
+        tl.fromTo(pct, { v: 0 }, { v: 78, duration: 1.2, ease: "power2.inOut", onUpdate: paint }, 0.9);
+        tl.to("#s4-fill", { scaleX: 0.9, backgroundColor: "#69594a", duration: 0.5, ease: "power3.out" }, 2.2);
+        tl.to(pct, { v: 110, duration: 0.5, ease: "power3.out", onUpdate: paint }, 2.2);
+        tl.to("#s4-tope-mark", { keyframes: [{ x: -8 }, { x: 8 }, { x: -5 }, { x: 0 }], duration: 0.32, ease: "none" }, 2.6);
+        tl.fromTo("#s4-alert", { autoAlpha: 0, scale: 0.6 }, { autoAlpha: 1, scale: 1, duration: 0.4, ease: "back.out(2.2)" }, 2.65);
+        tl.to(R + ".scene-content", { autoAlpha: 0, y: 70, duration: 0.26, ease: "power2.in" }, 3.74);
+        window.__timelines["s4-tope"] = tl;
+      })();
+    </script>
+  </div>
+</template>

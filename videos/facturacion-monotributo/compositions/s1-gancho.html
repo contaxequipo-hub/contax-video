@@ -1,0 +1,48 @@
+<template id="s1-gancho-template">
+  <div data-composition-id="s1-gancho" data-width="1080" data-height="1920" data-duration="3">
+    <div class="scene-content">
+      <div class="meta"><span class="dash"></span><span>MONOTRIBUTO · FACTURACIÓN</span></div>
+      <h1 class="headline"><span class="w">¿Sos</span> <span class="em"><span class="ul"></span><span class="t">monotributista?</span></span></h1>
+      <div class="sub hook-sub"><span>Esto te interesa</span><span class="emoji">👇</span></div>
+      <div class="visual">
+        <div class="hook-rings">
+          <svg viewBox="0 0 200 200">
+            <circle id="hr1" cx="100" cy="100" r="92" fill="none" stroke="#2c80c6" stroke-width="9" stroke-dasharray="270 20 268 20" />
+            <circle id="hr2" cx="100" cy="100" r="62" fill="none" stroke="#2c80c6" stroke-width="9" stroke-dasharray="180 15 180 15" />
+            <circle cx="100" cy="100" r="32" fill="none" stroke="#2c80c6" stroke-width="9" />
+          </svg>
+        </div>
+      </div>
+    </div>
+
+    <style>
+      [data-composition-id="s1-gancho"] { position: absolute; inset: 0; }
+      [data-composition-id="s1-gancho"] .headline { font-size: 132px; }
+      [data-composition-id="s1-gancho"] .hook-sub { display: flex; align-items: center; gap: 18px; }
+      [data-composition-id="s1-gancho"] .emoji { display: inline-block; font-size: 64px; line-height: 1; }
+      [data-composition-id="s1-gancho"] .hook-rings { position: relative; width: 520px; height: 520px; }
+      [data-composition-id="s1-gancho"] .hook-rings svg { width: 100%; height: 100%; display: block; }
+    </style>
+
+    <script>
+      (function () {
+        const R = '[data-composition-id="s1-gancho"] ';
+        const tl = gsap.timeline({ paused: true });
+        tl.fromTo(R + ".meta", { autoAlpha: 0, x: -40 }, { autoAlpha: 1, x: 0, duration: 0.45, ease: "power3.out" }, 0.15);
+        tl.fromTo(R + ".meta .dash", { scaleX: 0 }, { scaleX: 1, duration: 0.5, ease: "expo.out" }, 0.2);
+        // Gancho: las palabras saltan con rebote.
+        tl.fromTo(R + ".headline > span", { autoAlpha: 0, scale: 0.7, y: 40 }, { autoAlpha: 1, scale: 1, y: 0, duration: 0.5, ease: "back.out(2)", stagger: 0.14 }, 0.27);
+        tl.fromTo(R + ".headline .ul", { scaleX: 0 }, { scaleX: 1, duration: 0.5, ease: "power2.inOut" }, 0.9);
+        tl.fromTo(R + ".sub", { autoAlpha: 0, y: 24 }, { autoAlpha: 1, y: 0, duration: 0.4, ease: "power2.out" }, 1.1);
+        tl.fromTo(R + ".hook-rings", { autoAlpha: 0, scale: 0.4, rotation: -60 }, { autoAlpha: 1, scale: 1, rotation: 0, duration: 0.8, ease: "expo.out" }, 0.55);
+        tl.fromTo("#hr1", { rotation: 0, svgOrigin: "100 100" }, { rotation: 90, svgOrigin: "100 100", duration: 2.2, ease: "sine.inOut" }, 0.6);
+        tl.fromTo("#hr2", { rotation: 0, svgOrigin: "100 100" }, { rotation: -120, svgOrigin: "100 100", duration: 2.2, ease: "sine.inOut" }, 0.6);
+        tl.fromTo(R + ".emoji", { autoAlpha: 0, y: -50 }, { autoAlpha: 1, y: 0, duration: 0.55, ease: "bounce.out" }, 1.15);
+        tl.to(R + ".emoji", { y: 16, duration: 0.3, ease: "sine.inOut", yoyo: true, repeat: 3 }, 1.75);
+        // Salida rápida hacia arriba.
+        tl.to(R + ".scene-content", { autoAlpha: 0, y: -70, duration: 0.26, ease: "power2.in" }, 2.74);
+        window.__timelines["s1-gancho"] = tl;
+      })();
+    </script>
+  </div>
+</template>

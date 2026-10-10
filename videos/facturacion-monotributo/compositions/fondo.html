@@ -1,0 +1,36 @@
+<template id="fondo-template">
+  <div data-composition-id="fondo" data-width="1080" data-height="1920" data-duration="15.6">
+    <div class="bg-wash"></div>
+    <div class="bg-rings" data-layout-allow-overflow="true">
+      <svg viewBox="0 0 200 200" data-layout-allow-overflow="true">
+        <circle id="bgRingA" cx="100" cy="100" r="94" fill="none" stroke="#9fb8bf" stroke-width="2.4" opacity="0.5" stroke-dasharray="140 8 160 8" />
+        <circle id="bgRingB" cx="100" cy="100" r="68" fill="none" stroke="#9fb8bf" stroke-width="2.4" opacity="0.42" stroke-dasharray="96 7 110 7" />
+        <circle cx="100" cy="100" r="42" fill="none" stroke="#9fb8bf" stroke-width="2.4" opacity="0.34" />
+      </svg>
+    </div>
+    <div class="bg-rule"></div>
+    <div class="bg-foot"><span>CONTAX-AI</span><span>ESTUDIO CONTABLE</span></div>
+
+    <style>
+      [data-composition-id="fondo"] { position: absolute; inset: 0; overflow: hidden; background: var(--papel); }
+      [data-composition-id="fondo"] .bg-wash { position: absolute; inset: 0; background: radial-gradient(1100px 900px at 85% 78%, var(--papel-2) 0%, rgba(242, 239, 234, 0) 70%); }
+      [data-composition-id="fondo"] .bg-rings { position: absolute; width: 1500px; height: 1500px; right: -620px; bottom: -560px; }
+      [data-composition-id="fondo"] .bg-rings svg { width: 100%; height: 100%; display: block; overflow: visible; }
+      [data-composition-id="fondo"] .bg-rule { position: absolute; left: 96px; right: 96px; bottom: 236px; height: 2px; background: var(--bruma); opacity: 0.55; transform-origin: left center; }
+      [data-composition-id="fondo"] .bg-foot { position: absolute; left: 96px; right: 96px; bottom: 176px; display: flex; justify-content: space-between; font-size: 24px; font-weight: 500; letter-spacing: 0.32em; color: var(--azul-inst); }
+    </style>
+
+    <script>
+      (function () {
+        const R = '[data-composition-id="fondo"] ';
+        const tl = gsap.timeline({ paused: true });
+        // Ambiente: los anillos del isotipo giran lento, en sentidos opuestos.
+        tl.fromTo("#bgRingA", { rotation: 0, svgOrigin: "100 100" }, { rotation: 40, svgOrigin: "100 100", duration: 15.6, ease: "none" }, 0);
+        tl.fromTo("#bgRingB", { rotation: 0, svgOrigin: "100 100" }, { rotation: -55, svgOrigin: "100 100", duration: 15.6, ease: "none" }, 0);
+        tl.fromTo(R + ".bg-rule", { scaleX: 0 }, { scaleX: 1, duration: 0.9, ease: "expo.out" }, 0.2);
+        tl.fromTo(R + ".bg-foot", { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.6, ease: "sine.out" }, 0.5);
+        window.__timelines["fondo"] = tl;
+      })();
+    </script>
+  </div>
+</template>

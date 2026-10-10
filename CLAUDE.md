@@ -1,8 +1,15 @@
 # CLAUDE.md — Guía de marca Contax-AI
 
-Este repo produce videos de **Contax-AI** con HyperFrames (skills en `.claude/skills/`).
+Este repo produce videos de **Contax-AI** (skills en `.claude/skills/`).
 **Aplicá esta guía siempre, en todos los videos.** La fuente completa es el manual de marca en
 `docs/manual-de-marca.pdf`; ante cualquier duda, manda el manual.
+
+## Qué skill usar
+
+- **Videos animados desde cero** (textos, gráficos, sin persona en cámara): **HyperFrames**.
+- **Editar videos grabados a cámara o sacar reels de una grabación**: **editor-video-ia**.
+- **En todos los videos**, textos y subtítulos con **voseo rioplatense**, aunque la skill indique
+  otra variante (por ejemplo, editor-video-ia pide español neutro con "tú": acá no aplica).
 
 ## Marca
 
